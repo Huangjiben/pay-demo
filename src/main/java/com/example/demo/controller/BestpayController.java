@@ -70,5 +70,6 @@ public class BestpayController {
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         out.write(stb.toString());
+        return "";
     }
 }
