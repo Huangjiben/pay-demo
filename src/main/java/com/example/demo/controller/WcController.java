@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class WcController {
     @Autowired
     private ActivityService activityService;
-//test
+//test test1
     @RequestMapping("/toPay")
     public String hello(Map<String, Object> map) {
         SerialNumber serial = new FileEveryDaySerialNumber(5, "EveryDaySerialNumber.dat");
