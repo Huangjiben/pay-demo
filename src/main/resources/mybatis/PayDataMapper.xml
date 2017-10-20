@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.PayDataMapper">
+    <resultMap id="payDataMapper" type="com.example.demo.model.PayData">
+        <id property="payDataId" column="PAYDATA_ID" jdbcType="INTEGER"></id>
+        <result property="orderId" column="ORDERID" jdbcType="VARCHAR"></result>
+        <result property="prePayId" column="PREPAYID" jdbcType="DATE"></result>
+        <result property="transaction_id" column="TRANSACTION_ID" jdbcType="VARCHAR"></result>
+        <result property="refund_fee" column="REFUND_FEE" jdbcType="VARCHAR"></result>
+        <result property="total_fee" column="TOTAL_FEE" jdbcType="VARCHAR"></result>
+        <result property="opendId" column="OPENDID" jdbcType="VARCHAR"></result>
+        <result property="isRefund" column="ISREFUND" jdbcType="VARCHAR"></result>
+    </resultMap>
+    <select id="findRefundPayData" parameterType="String" resultMap="payDataMapper">
+        select * from payData d where d.opendId = #{openId} and d.isRefund != 'Y'
+    </select>
+
+    <select id="getPaymoneyByOrderId" parameterType="String" resultType="String">
+        select total_fee from payData d where d.orderId = #{orderId}
+    </select>
+
+
+    <update id="updateRefund">
+        UPDATE payData d SET d.isRefund = #{isRefund} WHERE d.orderId = #{orderId}
+    </update>
+
+    <update id="updatePayData">
+        UPDATE payData d SET d.transaction_id = #{transaction_id},d.isPay = #{isPay} WHERE d.orderId = #{orderId}
+    </update>
+
+    <insert id="insertPayData" parameterType="com.example.demo.model.PayData" useGeneratedKeys="true"
+            keyProperty="payDataId">
+        INSERT INTO payData (
+        ORDERID,
+        PREPAYID,
+        TOTAL_FEE,
+        OPENDID)
+        VALUE (#{orderId},#{prePayId},#{total_fee},#{opendId})
+    </insert>
+
+</mapper>
